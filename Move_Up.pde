@@ -43,7 +43,7 @@ void draw() {
 }
 
 void update(int x, int y) {
-  if ( overup(upX, upY, upSize, upSize) ) {
+  if ( overUp(upX, upY, upSize, upSize) ) {
     upOver = true;
   } else {
     upOver = false;
@@ -63,7 +63,7 @@ void mouseReleased() {
   println("released");
 }
 
-boolean overup(int x, int y, int width, int height)  {
+boolean overUp(int x, int y, int width, int height)  {
   if (mouseX >= x && mouseX <= x+width && 
       mouseY >= y && mouseY <= y+height) {
     return true;
