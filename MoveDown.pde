@@ -5,61 +5,65 @@ Serial val;
 /**
  * MoveDown
  */
-int downX, downY;
-int downSize = 90;
-color downColor, baseColor;
-color downHighlight;
+int autoX, autoY;
+int autoSize = 90;
+color autoColor, baseColor;
+color autoHighlight;
 color currentColor;
-boolean downOver = false;
+boolean autoOver = false;
+boolean valueHeld = false;
 
 void setup() {
   size(640, 360);
-  downColor = color(0);
-  downHighlight = color(51);
+  autoColor = color(0);
+  autoHighlight = color(51);
   baseColor = color(102);
   currentColor = baseColor;
-  downX = width/2-downSize-10;
-  downY = height/2-downSize/2;
+  autoX = width/2-autoSize-10;
+  autoY = height/2-autoSize/2;
   ellipseMode(CENTER);
   
   
-  String portName = Serial.list()[0]; //change the 0 to a 1 or 2 etc. to match your port
-  myPort = new Serial(this, portName, 9600);
+  //String portName = Serial.list()[0]; //change the 0 to a 1 or 2 etc. to match your port
+  //myPort = new Serial(this, portName, 9600);
 }
 
 void draw() {
   update(mouseX, mouseY);
-  
-  if (downOver) {
-    fill(downHighlight);
+  if(valueHeld){
+    fill(autoHighlight);
+    myPort.write('d');          //send an a
+    println("d");
   } else {
-    fill(downColor);
+    fill(autoColor);
+    myPort.write('0');          //send a 0
   }
   stroke(255);
-  rect(downX, downY, downSize, downSize);
-  
+  rect(autoX, autoY, autoSize, autoSize); 
 }
 
-
 void update(int x, int y) {
-  if ( overDown(downX, downY, downSize, downSize) ) {
-    downOver = true;
+  if ( overAuto(autoX, autoY, autoSize, autoSize) ) {
+    autoOver = true;
   } else {
-    downOver = false;
+    autoOver = false;
   }
 }
 
 void mousePressed() {
-  if (downOver) {
-    myPort.write('d');          //send a d
-    println("d");   
-  } else 
-  {                             //otherwise
-    myPort.write('0');          //send a 0
+  if (autoOver) {
+    valueHeld = true;
   }
 }
 
-boolean overDown(int x, int y, int width, int height)  {
+void mouseReleased() {
+  if(valueHeld){
+    valueHeld = false;
+  }
+  println("released");
+}
+
+boolean overAuto(int x, int y, int width, int height)  {
   if (mouseX >= x && mouseX <= x+width && 
       mouseY >= y && mouseY <= y+height) {
     return true;
