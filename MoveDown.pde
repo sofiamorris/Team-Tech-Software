@@ -31,7 +31,7 @@ void draw() {
   update(mouseX, mouseY);
   if(valueHeld){
     fill(downHighlight);
-    myPort.write('d');          //send an a
+    myPort.write('d');          //send an d
     println("d");
   } else {
     fill(downColor);
