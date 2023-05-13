@@ -50,10 +50,15 @@ void update(int x, int y) {
 }
 
 void mousePressed() {
-  if (powerOver) {
+  if (powerOver && down == 1) {
     myPort.write('h');          //send an h
     println("h");   
-  } else 
+    down = 0;
+  } else if ( powerOver && down == 0 ){
+    myPort.write('l');          //send an l
+    println("l");   
+    down = 1;
+  }else 
   {                             //otherwise
     myPort.write('0');          //send a 0
   }
